@@ -83,3 +83,26 @@ loadNews();
 </script>
 </body>
 </html>
+<section id="order-liquidity" style="padding:20px;margin:20px 0;border-radius:14px;background:#111827;color:#f9fafb;font-family:Arial,sans-serif">
+  <h2>📊 Order Flow & Liquidity Flow</h2>
+  <p style="color:#9ca3af">Panel edukasi aktivitas harga XAUUSD</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+    <div style="padding:14px;background:#1f2937;border-radius:10px">
+      <b>🕯️ Struktur Candle</b>
+      <p id="ol-candle">Menunggu data harga...</p>
+    </div>
+    <div style="padding:14px;background:#1f2937;border-radius:10px">
+      <b>📈 Tick Volume</b>
+      <p id="ol-volume">Menunggu data volume...</p>
+    </div>
+    <div style="padding:14px;background:#1f2937;border-radius:10px">
+      <b>💧 Area Likuiditas</b>
+      <p id="ol-liquidity">Lihat high dan low sebelumnya pada grafik.</p>
+    </div>
+  </div>
+
+  <p style="font-size:13px;color:#fbbf24;margin-top:14px">
+    Catatan: panel ini belum terhubung ke data harga langsung. Tick volume bukan volume transaksi global, dan area likuiditas hanya perkiraan edukatif.
+  </p>
+</section>
