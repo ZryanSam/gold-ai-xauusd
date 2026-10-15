@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Gold AI — Analis XAUUSD</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#121e30;--line:#29384d;--muted:#9aabc2;--text:#edf4ff;--green:#2dd4a0;--red:#fb7185;--yellow:#fbbf24;--blue:#7db4ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0b1220,#101a2a);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:760px;margin:auto;padding:18px 14px 40px}.top{display:flex;align-items:center;gap:12px;margin:8px 0 18px}.logo{width:46px;height:46px;border-radius:14px;background:#173b36;display:grid;place-items:center;font-size:25px}.sub{color:var(--muted);font-size:12px;letter-spacing:.12em}.tag{margin-left:auto;border:1px solid #27674f;background:#12382f;color:#6ee7b7;border-radius:99px;padding:6px 10px;font-size:12px}
+h1{font-size:24px;margin:0}h2{font-size:17px;margin:0 0 12px}.panel{background:rgba(18,30,48,.96);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 10px 26px #0002}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{font-size:13px;color:#c6d3e5}input,select{width:100%;background:#0b1422;border:1px solid #34455e;color:var(--text);border-radius:10px;padding:12px;font-size:16px;min-width:0}button{border:0;border-radius:12px;background:#22b981;color:#041a13;font-weight:750;font-size:16px;padding:13px 16px;width:100%;cursor:pointer}button.secondary{background:#22334b;color:var(--text);margin-top:8px}.signal{border-radius:14px;padding:15px;background:#17263a;border:1px solid var(--line)}.signal strong{font-size:24px;display:block;margin:3px 0 5px}.bull{color:var(--green)}.bear{color:var(--red)}.wait{color:var(--yellow)}.meter{height:8px;background:#26364c;border-radius:99px;overflow:hidden;margin:10px 0}.meter span{height:100%;display:block;width:0;background:var(--blue)}ul{padding-left:20px;line-height:1.55}.note{font-size:12px;line-height:1.5;color:var(--muted)}.row{display:flex;justify-content:space-between;gap:10px;margin:9px 0;font-size:14px}.value{font-weight:650;text-align:right}.footer{text-align:center;color:var(--muted);font-size:12px;padding:12px}
+@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.panel{padding:13px}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="logo">✦</div>
+    <div><h1>GOLD AI</h1><div class="sub">XAUUSD • ANALISIS TEKNIKAL M15</div></div>
+    <div class="tag">DEMO / MANUAL</div>
+  </header>
+
+  <section class="panel">
+    <h2>Masukkan nilai indikator</h2>
+    <p class="muted" style="font-size:13px;margin-top:-4px">Ambil nilai dari grafikmu. Ini prototipe: belum menarik harga live otomatis dan bukan AI cloud.</p>
+    <div class="grid">
+      <div class="field"><label for="ema20">EMA 20</label><input id="ema20" type="number" step="any" placeholder="mis. 4321.5"></div>
+      <div class="field"><label for="ema50">EMA 50</label><input id="ema50" type="number" step="any" placeholder="mis. 4318.2"></div>
+      <div class="field"><label for="rsi">RSI (14)</label><input id="rsi" type="number" min="0" max="100" step="any" placeholder="mis. 56"></div>
+      <div class="field"><label for="macd">Nilai MACD</label><input id="macd" type="number" step="any" placeholder="mis. 1.2"></div>
+      <div class="field"><label for="signalLine">Garis sinyal MACD</label><input id="signalLine" type="number" step="any" placeholder="mis. 0.8"></div>
+      <div class="field"><label for="atr">ATR (14)</label><input id="atr" type="number" min="0" step="any" placeholder="mis. 4.5"></div>
+      <div class="field"><label for="price">Harga terakhir</label><input id="price" type="number" step="any" placeholder="mis. 4325.0"></div>
+      <div class="field"><label for="support">Support terdekat</label><input id="support" type="number" step="any" placeholder="opsional"></div>
+      <div class="field"><label for="resistance">Resistance terdekat</label><input id="resistance" type="number" step="any" placeholder="opsional"></div>
+      <div class="field"><label for="candle">Candle M15 terakhir</label><select id="candle"><option value="unknown">Belum dikonfirmasi</option><option value="bull">Bullish / naik</option><option value="bear">Bearish / turun</option></select></div>
+    </div>
+    <button id="analyze">Analisis indikator</button>
+    <button id="clear" class="secondary">Bersihkan nilai</button>
+  </section>
+
+  <section class="panel" aria-live="polite">
+    <h2>Hasil analisis</h2>
+    <div class="signal"><span class="muted">Kesimpulan sementara</span><strong id="verdict" class="wait">WAIT / DATA BELUM LENGKAP</strong><div id="summary" class="muted">Masukkan indikator lalu tekan Analisis indikator.</div><div class="meter"><span id="meter"></span></div><div id="scoreText" class="note">Skor keselarasan bukan probabilitas menang.</div></div>
+    <div id="details"><p class="muted">Alasan analisis akan tampil di sini.</p></div>
+  </section>
+
+  <section class="panel">
+    <h2>Aturan risiko untuk akun demo</h2>
+    <div class="row"><span class="muted">ATR</span><span id="atrOut" class="value">—</span></div>
+    <div class="row"><span class="muted">Support / resistance</span><span id="levelsOut" class="value">—</span></div>
+    <p class="note">ATR mengukur volatilitas, bukan arah. Jangan menggunakan output ini sebagai perintah transaksi. Prototipe tidak menghitung lot, tidak mengirim order ke MT5, dan tidak menjamin hasil. Uji strategi di akun demo serta perhitungkan spread dan slippage.</p>
+  </section>
+  <div class="footer">GOLD AI • Prototipe edukasi • Tidak ada koneksi broker</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+function num(id){const v=$(id).value.trim();return v===""?null:Number(v)}
+function fmt(v){return v===null||!Number.isFinite(v)?"—":v.toLocaleString("id-ID",{maximumFractionDigits:3})}
+function analyze(){
+ const e20=num("ema20"),e50=num("ema50"),rsi=num("rsi"),macd=num("macd"),sig=num("signalLine"),atr=num("atr"),price=num("price"),sup=num("support"),res=num("resistance"),candle=$("candle").value;
+ const required=[e20,e50,rsi,macd,sig,atr].every(v=>v!==null&&Number.isFinite(v));
+ const reasons=[];let bull=0,bear=0;
+ if(e20!==null&&e50!==null){if(e20>e50){bull++;reasons.push("EMA 20 berada di atas EMA 50: kecenderungan tren naik.");}else if(e20<e50){bear++;reasons.push("EMA 20 berada di bawah EMA 50: kecenderungan tren turun.");}else reasons.push("EMA 20 dan EMA 50 sama: belum ada keunggulan tren.");}
+ if(rsi!==null&&rsi>=0&&rsi<=100){if(rsi>50){bull++;reasons.push("RSI di atas 50: momentum cenderung positif.");}else if(rsi<50){bear++;reasons.push("RSI di bawah 50: momentum cenderung negatif.");}else reasons.push("RSI di 50: momentum netral.");}else if(rsi!==null)reasons.push("Nilai RSI tidak valid; gunakan rentang 0–100.");
+ if(macd!==null&&sig!==null){if(macd>sig){bull++;reasons.push("MACD di atas garis sinyal: momentum relatif positif.");}else if(macd<sig){bear++;reasons.push("MACD di bawah garis sinyal: momentum relatif negatif.");}else reasons.push("MACD sama dengan garis sinyal: belum ada konfirmasi momentum.");}
+ if(candle==="bull"){bull++;reasons.push("Candle terakhir dipilih bullish; pastikan candle sudah ditutup.");}else if(candle==="bear"){bear++;reasons.push("Candle terakhir dipilih bearish; pastikan candle sudah ditutup.");}else reasons.push("Arah candle belum dikonfirmasi.");
+ if(price!==null&&sup!==null&&price<sup)reasons.push("Peringatan: harga input berada di bawah support yang dimasukkan; periksa level."); 
+ if(price!==null&&res!==null&&price>res)reasons.push("Peringatan: harga input berada di atas resistance yang dimasukkan; periksa level.");
+ let verdict="WAIT / TIDAK SEARAH",cls="wait",score=0,summary="Sinyal belum cukup selaras. Lebih baik menunggu konfirmasi.";
+ if(required){
+  score=Math.round(Math.max(bull,bear)/4*100);
+  if(bull>=3&&bull-bear>=2){verdict="BULLISH (DEMO)";cls="bull";summary="Beberapa kondisi cenderung naik, tetapi bukan jaminan harga akan naik."}
+  else if(bear>=3&&bear-bull>=2){verdict="BEARISH (DEMO)";cls="bear";summary="Beberapa kondisi cenderung turun, tetapi bukan jaminan harga akan turun."}
+  else {verdict="WAIT / KONFLIK";cls="wait";summary="Indikator belum memberi keselarasan yang cukup."}
+ } else {summary="Lengkapi EMA 20, EMA 50, RSI, MACD, garis sinyal MACD, dan ATR untuk penilaian dasar."}
+ $("verdict").textContent=verdict;$("verdict").className=cls;$("summary").textContent=summary;$("meter").style.width=score+"%";$("scoreText").textContent=required?`Skor keselarasan aturan: ${score}% — bukan probabilitas menang atau tingkat akurasi.`:"Skor belum tersedia karena data indikator belum lengkap.";
+ $("details").innerHTML="<ul>"+(reasons.length?reasons:["Belum ada data yang dapat dianalisis."]).map(x=>"<li>"+x+"</li>").join("")+"</ul>";
+ $("atrOut").textContent=fmt(atr);$("levelsOut").textContent=`S: ${fmt(sup)} / R: ${fmt(res)}`;
+}
+$("analyze").addEventListener("click",analyze);
+$("clear").addEventListener("click",()=>{document.querySelectorAll("input").forEach(i=>i.value="");$("candle").value="unknown";$("verdict").textContent="WAIT / DATA BELUM LENGKAP";$("verdict").className="wait";$("summary").textContent="Masukkan indikator lalu tekan Analisis indikator.";$("details").innerHTML='<p class="muted">Alasan analisis akan tampil di sini.</p>';$("meter").style.width="0";$("scoreText").textContent="Skor keselarasan bukan probabilitas menang.";$("atrOut").textContent="—";$("levelsOut").textContent="—";});
+</script>
+</body>
+</html>
